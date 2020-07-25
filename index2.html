@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn-pierre">Pierre</button>
+    <button id="btn-papier">Papier</button>
+    <button id="btn-sciseaux">Sciseaux</button>
+    <script>
+        let scorePlayer = 0;
+        let scoreComputer = 0;
+        let resultat = "";
+        let btn_papier = document.getElementById('btn-papier');
+        let btn_pierre = document.getElementById('btn-pierre');
+        let btn_sciseaux = document.getElementById('btn-sciseaux');
+        let div = document.createElement('div');
+        document.body.append(div);
+        div.textContent = getScore(scorePlayer, scoreComputer);
+
+
+
+        game();
+
+        //cette fonction choisit au hasard une valeur entre pierre papier sciseaux
+        function computerPlay() {
+            let valeur = ['pierre', 'papier', 'sciseaux'];
+            let i = Math.random() * 2;
+            i = Math.round(i);
+            let choice = valeur[i];
+            return choice;
+        }
+
+        //cette fonction affiche le score et le vainqueur final de la partie. 
+        function getresultat(chaine) {
+            div.textContent = "";
+            scorePlayer = 0;
+            scoreComputer = 0;
+            div.append(getScore());
+            div.append(chaine);
+        }
+
+        //Cette fonction verifie le score et affiche le score de la partie en cours.
+        function evenement() {
+            if (scorePlayer < 5 && scoreComputer < 5) {
+                div.textContent = "";
+                div.append(getScore());
+                div.append(resultat);
+            } else {
+                let player = scorePlayer;
+                let computer = scoreComputer;
+                if (scoreComputer > scorePlayer) {
+                    getresultat("\n YOU LOSE THE GAME \n");
+                } else {
+                    getresultat("\n CONGRATULATION, YOU WIN THE GAME \r");
+                }
+                div.append("PLAYER " + player + " : " + computer + " COMPUTER \n");
+            }
+        }
+
+        function game() {
+
+            scoreComputer = 0;
+            scorePlayer = 0;
+
+            let computerSelection = "";
+            let playerSelection = "";
+
+            btn_papier.addEventListener('click', () => {
+                resultat = playRound("papier", computerPlay());
+                evenement();
+            });
+
+            btn_pierre.addEventListener('click', () => {
+                resultat = playRound("pierre", computerPlay());
+                evenement();
+            });
+            btn_sciseaux.addEventListener('click', () => {
+                resultat = playRound("sciseaux", computerPlay());
+                evenement();
+            });
+
+        }
+
+        //cette fonction verifie le resultat du joueur et de l'ordi et renvoie le resultat de la partie.
+        function playRound(playerSelection, computerSelection) {
+
+            if (playerSelection == computerSelection) {
+                return "\r No one win\r";
+            } else if ((computerSelection == 'pierre' && playerSelection == 'sciseaux') ||
+                (computerSelection == 'papier' && playerSelection == 'pierre') ||
+                (computerSelection == 'sciseaux' && playerSelection == 'papier')) {
+                scoreComputer += 1;
+                return "\r You lose, " + computerSelection + " beats " + playerSelection;
+            } else {
+                scorePlayer += 1;
+                return "\r You win, " + playerSelection + " beats " + computerSelection;
+            }
+        }
+
+        function getScore() {
+            return "PLAYER " + scorePlayer + " : " + scoreComputer + " COMPUTER \r";
+        }
+    </script>
+</body>
+
+</html>
