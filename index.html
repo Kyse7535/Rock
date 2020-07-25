@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function computerPlay() {
+            let valeur = ['pierre', 'papier', 'sciseaux'];
+            let i = Math.random() * 2;
+            i = Math.round(i);
+            let choice = valeur[i];
+            return choice;
+        }
+
+        game();
+
+        function game() {
+            let computerSelection = "";
+            let playerSelection = "";
+            let scorePlayer = 0;
+            let scoreComputer = 0;
+            for (let i = 0; i < 2; i++) {
+                computerSelection = computerPlay();
+                playerSelection = prompt('Pierre, Papier, Sciseaux ?', '').toLowerCase();
+                alert(playerSelection + " " + computerSelection);
+                if (playRound(playerSelection, computerSelection)) {
+                    scorePlayer += 1;
+                    console.log("You win, " + playerSelection + " beats " + computerSelection);
+                } else {
+                    scoreComputer += 1;
+                    console.log("You lose, " + computerSelection + " beats " + playerSelection);
+                }
+            }
+            console.log("le score est : Computer :" + scoreComputer + " player : " + scorePlayer);
+        }
+
+        function playRound(playerSelection, computerSelection) {
+            while (playerSelection == computerSelection) {
+                computerSelection = computerPlay();
+                playerSelection = prompt('Pierre, Papier, Sciseaux ?', '').toLowerCase();
+            }
+            if ((computerSelection == 'pierre' && playerSelection == 'sciseaux') ||
+                (computerSelection == 'papier' && playerSelection == 'pierre') ||
+                (computerSelection == 'sciseaux' && playerSelection == 'papier')) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+</body>
+
+</html>
